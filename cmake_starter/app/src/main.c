@@ -35,7 +35,7 @@ int main(void) {
     led_init();           // FIXED: was LED_init()
     Joystick_init();
     
-    printf("Hello embedded world, from <YOUR NAME>!\n");
+    printf("Hello embedded world, from the future!\n");
     printf("When the LEDs light up, press the joystick in that direction!\n");
     printf("(Press left or right to exit)\n\n");
     
