@@ -130,17 +130,17 @@ hal/fast:
 .PHONY : hal/fast
 
 #=============================================================================
-# Target rules for targets named hello_world
+# Target rules for targets named reaction_timer
 
 # Build rule for target.
-hello_world: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hello_world
-.PHONY : hello_world
+reaction_timer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 reaction_timer
+.PHONY : reaction_timer
 
 # fast build rule for target.
-hello_world/fast:
-	$(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/build
-.PHONY : hello_world/fast
+reaction_timer/fast:
+	$(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/build
+.PHONY : reaction_timer/fast
 
 # Help Target
 help:
@@ -151,7 +151,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... hal"
-	@echo "... hello_world"
+	@echo "... reaction_timer"
 .PHONY : help
 
 

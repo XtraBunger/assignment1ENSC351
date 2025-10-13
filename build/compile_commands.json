@@ -6,17 +6,17 @@
 },
 {
   "directory": "/home/aaron/ensc351/work/assignment1/assignment1ENSC351/build/app",
-  "command": "/usr/bin/aarch64-linux-gnu-gcc  -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/include -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/hal/include -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -fsanitize=address -pthread -std=gnu11 -o CMakeFiles/hello_world.dir/src/badmath.c.o -c /home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/src/badmath.c",
+  "command": "/usr/bin/aarch64-linux-gnu-gcc  -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/include -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/hal/include -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -fsanitize=address -pthread -std=gnu11 -o CMakeFiles/reaction_timer.dir/src/badmath.c.o -c /home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/src/badmath.c",
   "file": "/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/src/badmath.c"
 },
 {
   "directory": "/home/aaron/ensc351/work/assignment1/assignment1ENSC351/build/app",
-  "command": "/usr/bin/aarch64-linux-gnu-gcc  -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/include -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/hal/include -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -fsanitize=address -pthread -std=gnu11 -o CMakeFiles/hello_world.dir/src/main.c.o -c /home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/src/main.c",
+  "command": "/usr/bin/aarch64-linux-gnu-gcc  -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/include -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/hal/include -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -fsanitize=address -pthread -std=gnu11 -o CMakeFiles/reaction_timer.dir/src/main.c.o -c /home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/src/main.c",
   "file": "/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/src/main.c"
 },
 {
   "directory": "/home/aaron/ensc351/work/assignment1/assignment1ENSC351/build/app",
-  "command": "/usr/bin/aarch64-linux-gnu-gcc  -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/include -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/hal/include -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -fsanitize=address -pthread -std=gnu11 -o CMakeFiles/hello_world.dir/src/reaction_timer.c.o -c /home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/src/reaction_timer.c",
+  "command": "/usr/bin/aarch64-linux-gnu-gcc  -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/include -I/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/hal/include -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -fsanitize=address -pthread -std=gnu11 -o CMakeFiles/reaction_timer.dir/src/reaction_timer.c.o -c /home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/src/reaction_timer.c",
   "file": "/home/aaron/ensc351/work/assignment1/assignment1ENSC351/cmake_starter/app/src/reaction_timer.c"
 }
 ]

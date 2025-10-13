@@ -3,6 +3,6 @@
 /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build/hal/CMakeFiles/hal.dir
 /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build/hal/CMakeFiles/edit_cache.dir
 /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build/hal/CMakeFiles/rebuild_cache.dir
-/home/aaron/ensc351/work/assignment1/assignment1ENSC351/build/app/CMakeFiles/hello_world.dir
+/home/aaron/ensc351/work/assignment1/assignment1ENSC351/build/app/CMakeFiles/reaction_timer.dir
 /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build/app/CMakeFiles/edit_cache.dir
 /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build/app/CMakeFiles/rebuild_cache.dir

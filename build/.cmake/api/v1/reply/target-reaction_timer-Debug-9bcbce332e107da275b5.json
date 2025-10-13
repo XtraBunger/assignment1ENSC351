@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "app/hello_world"
+			"path" : "app/reaction_timer"
 		}
 	],
 	"backtrace" : 1,
@@ -160,7 +160,7 @@
 			"id" : "hal::@ad971efe0e95b39e260f"
 		}
 	],
-	"id" : "hello_world::@5f5a17c01335469806cb",
+	"id" : "reaction_timer::@5f5a17c01335469806cb",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -191,8 +191,8 @@
 		],
 		"language" : "C"
 	},
-	"name" : "hello_world",
-	"nameOnDisk" : "hello_world",
+	"name" : "reaction_timer",
+	"nameOnDisk" : "reaction_timer",
 	"paths" : 
 	{
 		"build" : "app",

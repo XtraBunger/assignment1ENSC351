@@ -117,25 +117,25 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-app/CMakeFiles/hello_world.dir/rule:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/CMakeFiles/hello_world.dir/rule
-.PHONY : app/CMakeFiles/hello_world.dir/rule
+app/CMakeFiles/reaction_timer.dir/rule:
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/CMakeFiles/reaction_timer.dir/rule
+.PHONY : app/CMakeFiles/reaction_timer.dir/rule
 
 # Convenience name for target.
-hello_world: app/CMakeFiles/hello_world.dir/rule
-.PHONY : hello_world
+reaction_timer: app/CMakeFiles/reaction_timer.dir/rule
+.PHONY : reaction_timer
 
 # fast build rule for target.
-hello_world/fast:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/build
-.PHONY : hello_world/fast
+reaction_timer/fast:
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/build
+.PHONY : reaction_timer/fast
 
 src/badmath.o: src/badmath.c.o
 .PHONY : src/badmath.o
 
 # target to build an object file
 src/badmath.c.o:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/src/badmath.c.o
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/src/badmath.c.o
 .PHONY : src/badmath.c.o
 
 src/badmath.i: src/badmath.c.i
@@ -143,7 +143,7 @@ src/badmath.i: src/badmath.c.i
 
 # target to preprocess a source file
 src/badmath.c.i:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/src/badmath.c.i
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/src/badmath.c.i
 .PHONY : src/badmath.c.i
 
 src/badmath.s: src/badmath.c.s
@@ -151,7 +151,7 @@ src/badmath.s: src/badmath.c.s
 
 # target to generate assembly for a file
 src/badmath.c.s:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/src/badmath.c.s
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/src/badmath.c.s
 .PHONY : src/badmath.c.s
 
 src/main.o: src/main.c.o
@@ -159,7 +159,7 @@ src/main.o: src/main.c.o
 
 # target to build an object file
 src/main.c.o:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/src/main.c.o
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/src/main.c.o
 .PHONY : src/main.c.o
 
 src/main.i: src/main.c.i
@@ -167,7 +167,7 @@ src/main.i: src/main.c.i
 
 # target to preprocess a source file
 src/main.c.i:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/src/main.c.i
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/src/main.c.i
 .PHONY : src/main.c.i
 
 src/main.s: src/main.c.s
@@ -175,7 +175,7 @@ src/main.s: src/main.c.s
 
 # target to generate assembly for a file
 src/main.c.s:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/src/main.c.s
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/src/main.c.s
 .PHONY : src/main.c.s
 
 src/reaction_timer.o: src/reaction_timer.c.o
@@ -183,7 +183,7 @@ src/reaction_timer.o: src/reaction_timer.c.o
 
 # target to build an object file
 src/reaction_timer.c.o:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/src/reaction_timer.c.o
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/src/reaction_timer.c.o
 .PHONY : src/reaction_timer.c.o
 
 src/reaction_timer.i: src/reaction_timer.c.i
@@ -191,7 +191,7 @@ src/reaction_timer.i: src/reaction_timer.c.i
 
 # target to preprocess a source file
 src/reaction_timer.c.i:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/src/reaction_timer.c.i
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/src/reaction_timer.c.i
 .PHONY : src/reaction_timer.c.i
 
 src/reaction_timer.s: src/reaction_timer.c.s
@@ -199,7 +199,7 @@ src/reaction_timer.s: src/reaction_timer.c.s
 
 # target to generate assembly for a file
 src/reaction_timer.c.s:
-	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/hello_world.dir/build.make app/CMakeFiles/hello_world.dir/src/reaction_timer.c.s
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/reaction_timer.dir/build.make app/CMakeFiles/reaction_timer.dir/src/reaction_timer.c.s
 .PHONY : src/reaction_timer.c.s
 
 # Help Target
@@ -210,7 +210,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... hello_world"
+	@echo "... reaction_timer"
 	@echo "... src/badmath.o"
 	@echo "... src/badmath.i"
 	@echo "... src/badmath.s"
