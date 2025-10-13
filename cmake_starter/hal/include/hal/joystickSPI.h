@@ -1,11 +1,10 @@
-#ifndef JOYSTICK_SPI_H
-#define JOYSTICK_SPI_H
+#pragma once
 
 #include <stdbool.h>
 
 // Joystick directions
 typedef enum {
-    JOYSTICK_NONE,
+    JOYSTICK_NONE = 0,
     JOYSTICK_UP,
     JOYSTICK_DOWN,
     JOYSTICK_LEFT,
@@ -21,4 +20,6 @@ void Joystick_cleanup(void);
 // Read the current joystick direction
 JoystickDirection Joystick_read(void);
 
-#endif
+bool joystickMoved(void);
+
+void joystickRecenter(void);
