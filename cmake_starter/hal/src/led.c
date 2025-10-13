@@ -8,10 +8,11 @@
 #include <stdbool.h>
 #include <assert.h>
 
-// GPIO paths for LEDs on BeagleY-AI
-// TODO: You need to find the correct GPIO numbers for your LEDs
-#define GREEN_LED_PATH "/sys/class/gpio/gpioXXX"  // Replace XXX
-#define RED_LED_PATH "/sys/class/gpio/gpioYYY"    // Replace YYY
+// LED paths for BeagleY-AI
+#define GREEN_LED_TRIGGER "/sys/class/leds/ACT/trigger"
+#define GREEN_LED_BRIGHTNESS "/sys/class/leds/ACT/brightness"
+#define RED_LED_TRIGGER "/sys/class/leds/PWR/trigger"
+#define RED_LED_BRIGHTNESS "/sys/class/leds/PWR/brightness"
 
 static bool isInitialized = false;
 
@@ -27,8 +28,9 @@ static void writeToFile(const char* path, const char* value) {
 }
 
 void led_init(void) {
-    // TODO: Export GPIOs if needed
-    // TODO: Set GPIO direction to "out"
+    // Set LED triggers to "none" so we can control them manually
+    writeToFile(GREEN_LED_TRIGGER, "none");
+    writeToFile(RED_LED_TRIGGER, "none");
     
     // Turn off both LEDs initially
     led_setGreen(false);
@@ -44,25 +46,21 @@ void led_cleanup(void) {
     led_setGreen(false);
     led_setRed(false);
     
-    // TODO: Unexport GPIOs if needed
-    
     isInitialized = false;
 }
 
 void led_setGreen(bool on) {
     assert(isInitialized);
     
-    // TODO: Write "1" or "0" to the green led value file
     const char* value = on ? "1" : "0";
-    // writeToFile(GREEN_LED_PATH "/value", value);
+    writeToFile(GREEN_LED_BRIGHTNESS, value);
 }
 
 void led_setRed(bool on) {
     assert(isInitialized);
     
-    // TODO: Write "1" or "0" to the red led value file
     const char* value = on ? "1" : "0";
-    // writeToFile(RED_LED_PATH "/value", value);
+    writeToFile(RED_LED_BRIGHTNESS, value);
 }
 
 // Helper function to sleep for milliseconds
