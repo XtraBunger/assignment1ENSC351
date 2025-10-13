@@ -32,6 +32,8 @@ void led_init(void) {
     writeToFile(GREEN_LED_TRIGGER, "none");
     writeToFile(RED_LED_TRIGGER, "none");
     
+    isInitialized = true;
+
     // Turn off both LEDs initially
     led_setGreen(false);
     led_setRed(false);
