@@ -9,24 +9,36 @@
 #include <assert.h>
 
 #define SPI_DEVICE "/dev/spidev0.0"
-#define SPI_SPEED 250000
+#define SPI_SPEED 1000000
+#define SPI_MODE SPI_MODE_0
 
 // ADC channels for joystick axes
 #define JOYSTICK_X_CHANNEL 0
 #define JOYSTICK_Y_CHANNEL 1
 
-// Threshold values (you'll need to calibrate these)
-#define THRESHOLD_LOW 1000   // Below this = pressed in negative direction
-#define THRESHOLD_HIGH 3000  // Above this = pressed in positive direction
+// Center values and deadzone
+#define CENTER_X 2048
+#define CENTER_Y 2048
+#define DEADZONE_IN 1200   // Must move this far from center to register
+#define DEADZONE_OUT 900   // Must return within this to reset
+#define AVG_SAMPLES 4
 
 static int spiFd = -1;
 static bool isInitialized = false;
+static bool isMoved = false;
+static JoystickDirection lastDirection = JOYSTICK_NONE;
+static int centerX = CENTER_X;
+static int centerY = CENTER_Y;
 
-// Read one channel from the ADC (from the SPI guide)
+static inline int iabs(int x) { 
+    return x < 0 ? -x : x; 
+}
+
+// Read one channel from the ADC (MCP3208)
 static int readChannel(int channel) {
-    assert(isInitialized);
+    if (spiFd < 0 || channel < 0 || channel > 7) return -1;
     
-    // Build the command to send to ADC (MCP3008)
+    // Build the command to send to ADC
     uint8_t tx[3] = {
         (uint8_t)(0x06 | ((channel & 0x04) >> 2)),
         (uint8_t)((channel & 0x03) << 6),
@@ -44,7 +56,7 @@ static int readChannel(int channel) {
     };
     
     if (ioctl(spiFd, SPI_IOC_MESSAGE(1), &transfer) < 1) {
-        fprintf(stderr, "ERROR: SPI transfer failed\n");
+        perror("SPI_IOC_MESSAGE");
         return -1;
     }
     
@@ -53,62 +65,108 @@ static int readChannel(int channel) {
 }
 
 void Joystick_init(void) {
+    if (spiFd >= 0) return;
+    
     // Open SPI device
     spiFd = open(SPI_DEVICE, O_RDWR);
     if (spiFd < 0) {
-        fprintf(stderr, "ERROR: Unable to open SPI device\n");
+        perror(SPI_DEVICE);
         return;
     }
     
     // Configure SPI mode, bits, and speed
-    uint8_t mode = 0;
+    uint8_t mode = SPI_MODE;
     uint8_t bits = 8;
     uint32_t speed = SPI_SPEED;
     
-    ioctl(spiFd, SPI_IOC_WR_MODE, &mode);
-    ioctl(spiFd, SPI_IOC_WR_BITS_PER_WORD, &bits);
-    ioctl(spiFd, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
+    if (ioctl(spiFd, SPI_IOC_WR_MODE, &mode) == -1)
+        perror("SPI_IOC_WR_MODE");
+    if (ioctl(spiFd, SPI_IOC_WR_BITS_PER_WORD, &bits) == -1)
+        perror("SPI_IOC_WR_BITS_PER_WORD");
+    if (ioctl(spiFd, SPI_IOC_WR_MAX_SPEED_HZ, &speed) == -1)
+        perror("SPI_IOC_WR_MAX_SPEED_HZ");
     
+    centerX = CENTER_X;
+    centerY = CENTER_Y;
+    isMoved = false;
+    lastDirection = JOYSTICK_NONE;
     isInitialized = true;
 }
 
 void Joystick_cleanup(void) {
-    assert(isInitialized);
-    
     if (spiFd >= 0) {
         close(spiFd);
         spiFd = -1;
     }
-    
     isInitialized = false;
 }
 
 JoystickDirection Joystick_read(void) {
-    assert(isInitialized);
+    if (spiFd < 0) return isMoved ? lastDirection : JOYSTICK_NONE;
     
-    // Read X and Y values from ADC
-    int xValue = readChannel(JOYSTICK_X_CHANNEL);
-    int yValue = readChannel(JOYSTICK_Y_CHANNEL);
+    // Average multiple samples
+    long sumX = 0, sumY = 0;
+    int validSamples = 0;
     
-    // Debug output (remove later)
-    // printf("X: %d, Y: %d\n", xValue, yValue);
-    
-    // Determine direction based on thresholds
-    // TODO: You'll need to calibrate these thresholds based on your joystick
-    
-    // Check Y-axis first (up/down)
-    if (yValue < THRESHOLD_LOW) {
-        return JOYSTICK_DOWN;  // or UP, depending on wiring
-    } else if (yValue > THRESHOLD_HIGH) {
-        return JOYSTICK_UP;    // or DOWN, depending on wiring
+    for (int i = 0; i < AVG_SAMPLES; i++) {
+        int x = readChannel(JOYSTICK_X_CHANNEL);
+        int y = readChannel(JOYSTICK_Y_CHANNEL);
+        if (x >= 0 && y >= 0) {
+            sumX += x;
+            sumY += y;
+            validSamples++;
+        }
+        usleep(500);
     }
     
-    // Check X-axis (left/right)
-    if (xValue < THRESHOLD_LOW) {
-        return JOYSTICK_LEFT;
-    } else if (xValue > THRESHOLD_HIGH) {
-        return JOYSTICK_RIGHT;
+    if (validSamples == 0) {
+        return isMoved ? lastDirection : JOYSTICK_NONE;
     }
     
-    return JOYSTICK_NONE;
+    int avgX = (int)(sumX / validSamples);
+    int avgY = (int)(sumY / validSamples);
+    
+    // Calculate distance from center
+    int dx = avgX - centerX;
+    int dy = avgY - centerY;
+    long distanceSquared = (long)dx * dx + (long)dy * dy;
+    
+    const long DEADZONE_IN_SQ = (long)DEADZONE_IN * DEADZONE_IN;
+    const long DEADZONE_OUT_SQ = (long)DEADZONE_OUT * DEADZONE_OUT;
+    
+    // State machine with hysteresis
+    if (!isMoved) {
+        if (distanceSquared >= DEADZONE_IN_SQ) {
+            isMoved = true;
+            // Determine direction based on larger displacement
+            lastDirection = (iabs(dx) >= iabs(dy))
+                          ? (dx < 0 ? JOYSTICK_LEFT : JOYSTICK_RIGHT)
+                          : (dy > 0 ? JOYSTICK_UP : JOYSTICK_DOWN);
+        } else {
+            lastDirection = JOYSTICK_NONE;
+        }
+    } else {
+        if (distanceSquared <= DEADZONE_OUT_SQ) {
+            isMoved = false;
+            lastDirection = JOYSTICK_NONE;
+        } else {
+            // Update direction while moved
+            lastDirection = (iabs(dx) >= iabs(dy))
+                          ? (dx < 0 ? JOYSTICK_LEFT : JOYSTICK_RIGHT)
+                          : (dy > 0 ? JOYSTICK_UP : JOYSTICK_DOWN);
+        }
+    }
+    
+    return lastDirection;
+}
+
+bool joystickMoved(void) {
+    return Joystick_read() != JOYSTICK_NONE;
+}
+
+void joystickRecenter(void) {
+    // This function can be used to recalibrate center if needed
+    // For now, just reset state
+    isMoved = false;
+    lastDirection = JOYSTICK_NONE;
 }
