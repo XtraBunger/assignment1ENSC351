@@ -154,6 +154,54 @@ src/button.c.s:
 	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/button.c.s
 .PHONY : src/button.c.s
 
+src/joystickSPI.o: src/joystickSPI.c.o
+.PHONY : src/joystickSPI.o
+
+# target to build an object file
+src/joystickSPI.c.o:
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/joystickSPI.c.o
+.PHONY : src/joystickSPI.c.o
+
+src/joystickSPI.i: src/joystickSPI.c.i
+.PHONY : src/joystickSPI.i
+
+# target to preprocess a source file
+src/joystickSPI.c.i:
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/joystickSPI.c.i
+.PHONY : src/joystickSPI.c.i
+
+src/joystickSPI.s: src/joystickSPI.c.s
+.PHONY : src/joystickSPI.s
+
+# target to generate assembly for a file
+src/joystickSPI.c.s:
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/joystickSPI.c.s
+.PHONY : src/joystickSPI.c.s
+
+src/led.o: src/led.c.o
+.PHONY : src/led.o
+
+# target to build an object file
+src/led.c.o:
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/led.c.o
+.PHONY : src/led.c.o
+
+src/led.i: src/led.c.i
+.PHONY : src/led.i
+
+# target to preprocess a source file
+src/led.c.i:
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/led.c.i
+.PHONY : src/led.c.i
+
+src/led.s: src/led.c.s
+.PHONY : src/led.s
+
+# target to generate assembly for a file
+src/led.c.s:
+	cd /home/aaron/ensc351/work/assignment1/assignment1ENSC351/build && $(MAKE) $(MAKESILENT) -f hal/CMakeFiles/hal.dir/build.make hal/CMakeFiles/hal.dir/src/led.c.s
+.PHONY : src/led.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -166,6 +214,12 @@ help:
 	@echo "... src/button.o"
 	@echo "... src/button.i"
 	@echo "... src/button.s"
+	@echo "... src/joystickSPI.o"
+	@echo "... src/joystickSPI.i"
+	@echo "... src/joystickSPI.s"
+	@echo "... src/led.o"
+	@echo "... src/led.i"
+	@echo "... src/led.s"
 .PHONY : help
 
 

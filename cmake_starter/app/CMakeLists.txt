@@ -7,6 +7,9 @@ add_executable(main ${MY_SOURCES})
 # Make use of the HAL library
 target_link_libraries(main LINK_PRIVATE hal)
 
+#Get hal includes too
+target_include_directories(main PRIVATE ${CMAKE_SOURCE_DIR}/hal/include)
+
 # Copy executable to final location (change `main` to project name as needed)
 add_custom_command(TARGET main POST_BUILD
   COMMAND "${CMAKE_COMMAND}" -E copy
