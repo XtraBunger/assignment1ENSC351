@@ -1,57 +1,146 @@
-// Main program to build the application
-// Has main(); does initialization and cleanup and perhaps some basic logic.
-
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <stdbool.h>
-#include "badmath.h"
-#include "hal/button.h"
+#include "hal/led.h"
+#include "hal/joystickSPI.h"
 
-void foo() {
-    int data[3];    
-    for (int i = 0; i <= 3; i++) {
-        data[i] = 10;
-        printf("Value: %d\n", data[i]);
-    }
+// Helper function to get time in milliseconds
+static long long getTimeInMs(void) {
+    struct timespec spec;
+    clock_gettime(CLOCK_REALTIME, &spec);
+    long long seconds = spec.tv_sec;
+    long long nanoSeconds = spec.tv_nsec;
+    return seconds * 1000 + nanoSeconds / 1000000;
 }
 
-int main()
-{
-    printf("Hello embedded world from me!\n");
+// Helper function to sleep for milliseconds
+static void sleepMs(long long delayInMs) {
+    const long long NS_PER_MS = 1000 * 1000;
+    const long long NS_PER_SECOND = 1000000000;
+    
+    long long delayNs = delayInMs * NS_PER_MS;
+    int seconds = delayNs / NS_PER_SECOND;
+    int nanoseconds = delayNs % NS_PER_SECOND;
+    
+    struct timespec reqDelay = {seconds, nanoseconds};
+    nanosleep(&reqDelay, NULL);
+}
 
-    // Initialize all modules; HAL modules first
-    button_init();
-    badmath_init();
-
-    // Main program logic:
-    for (int i = 0; i < 10; i++) {
-        printf("  -> Reading button time %d = %d\n", i, button_is_button_pressed());
-    }
-
-    for (int i = 0; i <= 35; i++) {
-        int ans = badmath_factorial(i);
-        printf("%4d! = %6d\n", i, ans);
-    }
-
-    // Cleanup all modules (HAL modules last)
-    badmath_cleanup();
-    button_cleanup();
-
-    printf("!!! DONE !!!\n"); 
-
-    // Some bad code to try out and see what shows up.
-    #if 0
-        // Test your linting setup
-        //   - You should see a warning underline in VS Code
-        //   - You should see compile-time errors when building (-Wall -Werror)
-        // (Linting using clang-tidy; see )
-        int x = 0;
-        if (x = 10) {
+int main(void) {
+    // Initialize random number generator
+    srand(time(NULL));
+    
+    // Initialize HAL modules
+    led_init();           // FIXED: was LED_init()
+    Joystick_init();
+    
+    printf("Hello embedded world, from <YOUR NAME>!\n");
+    printf("When the LEDs light up, press the joystick in that direction!\n");
+    printf("(Press left or right to exit)\n\n");
+    
+    long long bestTime = -1;  // Best reaction time in ms
+    bool keepRunning = true;
+    
+    while (keepRunning) {
+        // 1. Print "get ready" and flash LEDs 4 times
+        printf("Get ready...\n");
+        for (int i = 0; i < 4; i++) {
+            led_setGreen(true);    // FIXED: was LED_setGreen
+            sleepMs(250);
+            led_setGreen(false);   // FIXED: was LED_setGreen
+            
+            led_setRed(true);      // FIXED: was LED_setRed
+            sleepMs(250);
+            led_setRed(false);     // FIXED: was LED_setRed
         }
-    #endif
-    #if 1
-        // Demonstrate -fsanitize=address (enabled in the root CMakeFiles.txt)
-        // Compile and run this code. Should see warning at compile time; error at runtime.
-        foo();
-
-    #endif
+        
+        // 2. Check if user is already pressing joystick
+        if (joystickMoved()) {     // FIXED: Added this check
+            printf("Please let go of joystick\n");
+            while (joystickMoved()) {
+                sleepMs(50);
+            }
+        }
+        
+        // 3. Wait random time (0.5s to 3.0s)
+        int waitTime = 500 + (rand() % 2501);  // FIXED: was 2500, should be 2501 for inclusive 3000
+        sleepMs(waitTime);
+        
+        // 4. Check if user pressed too soon
+        if (joystickMoved()) {     // FIXED: Added this check
+            printf("too soon\n");
+            continue;
+        }
+        
+        // 5. Pick random direction and light LED
+        bool shouldPressUp = (rand() % 2) == 0;
+        if (shouldPressUp) {
+            printf("Press UP now!\n");
+            led_setGreen(true);    // FIXED: was LED_setGreen
+        } else {
+            printf("Press DOWN now!\n");
+            led_setRed(true);      // FIXED: was LED_setRed
+        }
+        
+        // 6. Time user's response
+        long long startTime = getTimeInMs();
+        JoystickDirection response = JOYSTICK_NONE;
+        
+        while (response == JOYSTICK_NONE) {
+            response = Joystick_read();
+            
+            // Check for timeout (5 seconds)
+            if (getTimeInMs() - startTime > 5000) {
+                printf("No input within 5000ms; quitting!\n");
+                keepRunning = false;
+                break;
+            }
+            
+            sleepMs(10);  // Small delay to avoid busy-waiting
+        }
+        
+        // Turn off LEDs
+        led_setGreen(false);       // FIXED: was LED_setGreen
+        led_setRed(false);         // FIXED: was LED_setRed
+        
+        if (!keepRunning) break;
+        
+        long long reactionTime = getTimeInMs() - startTime;
+        
+        // 7. Process user's response
+        if (response == JOYSTICK_LEFT || response == JOYSTICK_RIGHT) {
+            printf("User selected to quit.\n");
+            keepRunning = false;
+        } else if ((shouldPressUp && response == JOYSTICK_UP) ||
+                   (!shouldPressUp && response == JOYSTICK_DOWN)) {
+            // Correct!
+            printf("Correct!\n");
+            
+            if (bestTime == -1 || reactionTime < bestTime) {
+                printf("New best time!\n");
+                bestTime = reactionTime;
+            }
+            
+            printf("Your reaction time was %lldms; best so far in game is %lldms.\n",
+                   reactionTime, bestTime);
+            
+            // Flash green LED 5 times in 1 second
+            led_flashGreen(5, 1000);   // FIXED: was LED_flashGreen
+        } else {
+            // Incorrect
+            printf("Incorrect.\n");
+            
+            // Flash red LED 5 times in 1 second
+            led_flashRed(5, 1000);     // FIXED: was LED_flashRed
+        }
+        
+        printf("\n");
+    }
+    
+    // Cleanup
+    led_cleanup();        // FIXED: was LED_cleanup
+    Joystick_cleanup();
+    
+    return 0;
 }
