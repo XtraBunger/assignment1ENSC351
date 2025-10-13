@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "app/reaction_timer"
+			"path" : "app/main"
 		}
 	],
 	"backtrace" : 1,
@@ -148,8 +148,7 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1,
-				2
+				1
 			]
 		}
 	],
@@ -160,7 +159,7 @@
 			"id" : "hal::@ad971efe0e95b39e260f"
 		}
 	],
-	"id" : "reaction_timer::@5f5a17c01335469806cb",
+	"id" : "main::@5f5a17c01335469806cb",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -191,8 +190,8 @@
 		],
 		"language" : "C"
 	},
-	"name" : "reaction_timer",
-	"nameOnDisk" : "reaction_timer",
+	"name" : "main",
+	"nameOnDisk" : "main",
 	"paths" : 
 	{
 		"build" : "app",
@@ -205,8 +204,7 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1,
-				2
+				1
 			]
 		}
 	],
@@ -222,12 +220,6 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "app/src/main.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "app/src/reaction_timer.c",
 			"sourceGroupIndex" : 0
 		}
 	],

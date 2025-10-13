@@ -79,9 +79,9 @@
 				},
 				{
 					"directoryIndex" : 2,
-					"id" : "reaction_timer::@5f5a17c01335469806cb",
-					"jsonFile" : "target-reaction_timer-Debug-9bcbce332e107da275b5.json",
-					"name" : "reaction_timer",
+					"id" : "main::@5f5a17c01335469806cb",
+					"jsonFile" : "target-main-Debug-daf826b9918d290a323f.json",
+					"name" : "main",
 					"projectIndex" : 0
 				}
 			]

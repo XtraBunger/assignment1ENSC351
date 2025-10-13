@@ -16,7 +16,7 @@ void foo() {
 
 int main()
 {
-    printf("Hello world!\n");
+    printf("Hello embedded world from me!\n");
 
     // Initialize all modules; HAL modules first
     button_init();
