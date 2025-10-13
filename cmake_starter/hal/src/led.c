@@ -37,8 +37,6 @@ void led_init(void) {
     // Turn off both LEDs initially
     led_setGreen(false);
     led_setRed(false);
-    
-    isInitialized = true;
 }
 
 void led_cleanup(void) {
