@@ -6,7 +6,7 @@
 #include "hal/led.h"
 #include "hal/joystickSPI.h"
 
-// Helper function to get time in milliseconds
+// Get time
 static long long getTimeInMs(void) {
     struct timespec spec;
     clock_gettime(CLOCK_REALTIME, &spec);
@@ -15,7 +15,7 @@ static long long getTimeInMs(void) {
     return seconds * 1000 + nanoSeconds / 1000000;
 }
 
-// Helper function to sleep for milliseconds
+// Sleep
 static void sleepMs(long long delayInMs) {
     const long long NS_PER_MS = 1000 * 1000;
     const long long NS_PER_SECOND = 1000000000;
@@ -29,35 +29,32 @@ static void sleepMs(long long delayInMs) {
 }
 
 int main(void) {
-    // Initialize random number generator
-    srand(time(NULL));
+    srand(time(NULL)); // Random num gen
     
-    // Initialize HAL modules
-    led_init();           // FIXED: was LED_init()
+    // Initialize HAL stuff
+    led_init();           
     Joystick_init();
     
-    printf("Hello embedded world, from the future!\n");
+    printf("Hello embedded world, from me, Aaron!\n");
     printf("When the LEDs light up, press the joystick in that direction!\n");
     printf("(Press left or right to exit)\n\n");
     
-    long long bestTime = -1;  // Best reaction time in ms
+    long long bestTime = -1;  
     bool keepRunning = true;
     
     while (keepRunning) {
-        // 1. Print "get ready" and flash LEDs 4 times
         printf("Get ready...\n");
         for (int i = 0; i < 4; i++) {
-            led_setGreen(true);    // FIXED: was LED_setGreen
+            led_setGreen(true);   
             sleepMs(250);
-            led_setGreen(false);   // FIXED: was LED_setGreen
-            
-            led_setRed(true);      // FIXED: was LED_setRed
+            led_setGreen(false);
+
+            led_setRed(true);
             sleepMs(250);
-            led_setRed(false);     // FIXED: was LED_setRed
+            led_setRed(false); 
         }
         
-        // 2. Check if user is already pressing joystick
-        if (joystickMoved()) {     // FIXED: Added this check
+        if (joystickMoved()) {    
             printf("Please let go of joystick\n");
             while (joystickMoved()) {
                 sleepMs(50);
