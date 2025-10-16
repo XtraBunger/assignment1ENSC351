@@ -12,15 +12,13 @@
 #define SPI_SPEED 1000000
 #define SPI_MODE SPI_MODE_0
 
-// ADC channels for joystick axes
 #define JOYSTICK_X_CHANNEL 0
 #define JOYSTICK_Y_CHANNEL 1
 
-// Center values and deadzone
 #define CENTER_X 2048
 #define CENTER_Y 2048
-#define DEADZONE_IN 1200   // Must move this far from center to register
-#define DEADZONE_OUT 900   // Must return within this to reset
+#define DEADZONE_IN 1200   
+#define DEADZONE_OUT 900  
 #define AVG_SAMPLES 4
 
 static int spiFd = -1;
@@ -30,15 +28,16 @@ static JoystickDirection lastDirection = JOYSTICK_NONE;
 static int centerX = CENTER_X;
 static int centerY = CENTER_Y;
 
+//get abs value
 static inline int iabs(int x) { 
     return x < 0 ? -x : x; 
 }
 
-// Read one channel from the ADC (MCP3208)
+// Read 12 bit value from the ADC
 static int readChannel(int channel) {
     if (spiFd < 0 || channel < 0 || channel > 7) return -1;
     
-    // Build the command to send to ADC
+    // What channel to read from
     uint8_t tx[3] = {
         (uint8_t)(0x06 | ((channel & 0x04) >> 2)),
         (uint8_t)((channel & 0x03) << 6),
@@ -46,6 +45,7 @@ static int readChannel(int channel) {
     };
     uint8_t rx[3] = {0};
     
+    // SPI transaction data structure
     struct spi_ioc_transfer transfer = {
         .tx_buf = (unsigned long)tx,
         .rx_buf = (unsigned long)rx,
@@ -54,7 +54,7 @@ static int readChannel(int channel) {
         .bits_per_word = 8,
         .cs_change = 0
     };
-    
+
     if (ioctl(spiFd, SPI_IOC_MESSAGE(1), &transfer) < 1) {
         perror("SPI_IOC_MESSAGE");
         return -1;
@@ -64,6 +64,7 @@ static int readChannel(int channel) {
     return ((rx[1] & 0x0F) << 8) | rx[2];
 }
 
+// Open and configures joystick SPI
 void Joystick_init(void) {
     if (spiFd >= 0) return;
     
@@ -78,14 +79,15 @@ void Joystick_init(void) {
     uint8_t mode = SPI_MODE;
     uint8_t bits = 8;
     uint32_t speed = SPI_SPEED;
-    
+
+    // Configure SPI marameters
     if (ioctl(spiFd, SPI_IOC_WR_MODE, &mode) == -1)
         perror("SPI_IOC_WR_MODE");
     if (ioctl(spiFd, SPI_IOC_WR_BITS_PER_WORD, &bits) == -1)
         perror("SPI_IOC_WR_BITS_PER_WORD");
     if (ioctl(spiFd, SPI_IOC_WR_MAX_SPEED_HZ, &speed) == -1)
         perror("SPI_IOC_WR_MAX_SPEED_HZ");
-    
+
     centerX = CENTER_X;
     centerY = CENTER_Y;
     isMoved = false;
@@ -93,6 +95,7 @@ void Joystick_init(void) {
     isInitialized = true;
 }
 
+// Cleanup joystick SPI
 void Joystick_cleanup(void) {
     if (spiFd >= 0) {
         close(spiFd);
@@ -102,9 +105,12 @@ void Joystick_cleanup(void) {
 }
 
 JoystickDirection Joystick_read(void) {
+    // Check if SPI open
     if (spiFd < 0) return isMoved ? lastDirection : JOYSTICK_NONE;
     
-    // Average multiple samples
+    /* Average multiple samples 
+        Take some readings and averages valid samples 
+        to reduce noise */
     long sumX = 0, sumY = 0;
     int validSamples = 0;
     
@@ -131,26 +137,27 @@ JoystickDirection Joystick_read(void) {
     int dy = avgY - centerY;
     long distanceSquared = (long)dx * dx + (long)dy * dy;
     
+    // Define deadzones
     const long DEADZONE_IN_SQ = (long)DEADZONE_IN * DEADZONE_IN;
     const long DEADZONE_OUT_SQ = (long)DEADZONE_OUT * DEADZONE_OUT;
     
     // State machine with hysteresis
-    if (!isMoved) {
-        if (distanceSquared >= DEADZONE_IN_SQ) {
+    if (!isMoved) { // Jostick not moved
+        if (distanceSquared >= DEADZONE_IN_SQ) { // Joystick pushed past deadzone
             isMoved = true;
             // Determine direction based on larger displacement
             lastDirection = (iabs(dx) >= iabs(dy))
                           ? (dx < 0 ? JOYSTICK_LEFT : JOYSTICK_RIGHT)
                           : (dy > 0 ? JOYSTICK_UP : JOYSTICK_DOWN);
-        } else {
+        } else { // Joystick still in deadzone
             lastDirection = JOYSTICK_NONE;
         }
-    } else {
-        if (distanceSquared <= DEADZONE_OUT_SQ) {
+    } else { // Joystick currently pressed
+        if (distanceSquared <= DEADZONE_OUT_SQ) { // Moved but back in deadzone
             isMoved = false;
             lastDirection = JOYSTICK_NONE;
         } else {
-            // Update direction while moved
+            // Joystick started in deadzone and is currently outside of it
             lastDirection = (iabs(dx) >= iabs(dy))
                           ? (dx < 0 ? JOYSTICK_LEFT : JOYSTICK_RIGHT)
                           : (dy > 0 ? JOYSTICK_UP : JOYSTICK_DOWN);
@@ -160,13 +167,7 @@ JoystickDirection Joystick_read(void) {
     return lastDirection;
 }
 
+// Return true if direction detected
 bool joystickMoved(void) {
     return Joystick_read() != JOYSTICK_NONE;
-}
-
-void joystickRecenter(void) {
-    // This function can be used to recalibrate center if needed
-    // For now, just reset state
-    isMoved = false;
-    lastDirection = JOYSTICK_NONE;
 }

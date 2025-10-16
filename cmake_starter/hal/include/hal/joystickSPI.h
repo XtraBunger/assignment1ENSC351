@@ -11,15 +11,14 @@ typedef enum {
     JOYSTICK_RIGHT
 } JoystickDirection;
 
-// Initialize the joystick module (sets up SPI)
+// Initializes  the joystick SPI stuff
 void Joystick_init(void);
 
-// Cleanup the joystick module
+// Cleanup the joystick SPI stuff
 void Joystick_cleanup(void);
 
-// Read the current joystick direction
+// Read the joystick direction
 JoystickDirection Joystick_read(void);
 
+// Check if joystick moved from center position
 bool joystickMoved(void);
-
-void joystickRecenter(void);

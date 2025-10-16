@@ -43,6 +43,8 @@ int main(void) {
     bool keepRunning = true;
     
     while (keepRunning) {
+
+        // Start
         printf("Get ready...\n");
         for (int i = 0; i < 4; i++) {
             led_setGreen(true);   
@@ -61,34 +63,32 @@ int main(void) {
             }
         }
         
-        // 3. Wait random time (0.5s to 3.0s)
-        int waitTime = 500 + (rand() % 2501);  // FIXED: was 2500, should be 2501 for inclusive 3000
+        // Random wait time
+        int waitTime = 500 + (rand() % 2501); 
         sleepMs(waitTime);
         
-        // 4. Check if user pressed too soon
-        if (joystickMoved()) {     // FIXED: Added this check
+        if (joystickMoved()) {     
             printf("too soon\n");
             continue;
         }
         
-        // 5. Pick random direction and light LED
+        // Random direction picker
         bool shouldPressUp = (rand() % 2) == 0;
         if (shouldPressUp) {
             printf("Press UP now!\n");
-            led_setGreen(true);    // FIXED: was LED_setGreen
+            led_setGreen(true);   
         } else {
             printf("Press DOWN now!\n");
-            led_setRed(true);      // FIXED: was LED_setRed
+            led_setRed(true);      
         }
         
-        // 6. Time user's response
         long long startTime = getTimeInMs();
         JoystickDirection response = JOYSTICK_NONE;
         
+        // Wait for user response
         while (response == JOYSTICK_NONE) {
             response = Joystick_read();
             
-            // Check for timeout (5 seconds)
             if (getTimeInMs() - startTime > 5000) {
                 printf("No input within 5000ms; quitting!\n");
                 keepRunning = false;
@@ -98,21 +98,19 @@ int main(void) {
             sleepMs(10);  // Small delay to avoid busy-waiting
         }
         
-        // Turn off LEDs
-        led_setGreen(false);       // FIXED: was LED_setGreen
-        led_setRed(false);         // FIXED: was LED_setRed
+        led_setGreen(false);     
+        led_setRed(false);         
         
         if (!keepRunning) break;
         
         long long reactionTime = getTimeInMs() - startTime;
         
-        // 7. Process user's response
+        // Results
         if (response == JOYSTICK_LEFT || response == JOYSTICK_RIGHT) {
             printf("User selected to quit.\n");
             keepRunning = false;
         } else if ((shouldPressUp && response == JOYSTICK_UP) ||
                    (!shouldPressUp && response == JOYSTICK_DOWN)) {
-            // Correct!
             printf("Correct!\n");
             
             if (bestTime == -1 || reactionTime < bestTime) {
@@ -123,21 +121,17 @@ int main(void) {
             printf("Your reaction time was %lldms; best so far in game is %lldms.\n",
                    reactionTime, bestTime);
             
-            // Flash green LED 5 times in 1 second
-            led_flashGreen(5, 1000);   // FIXED: was LED_flashGreen
+            led_flashGreen(5, 1000);   // 5x in 1 second
         } else {
-            // Incorrect
             printf("Incorrect.\n");
             
-            // Flash red LED 5 times in 1 second
-            led_flashRed(5, 1000);     // FIXED: was LED_flashRed
+            led_flashRed(5, 1000);     // 5x in 1 second
         }
         
         printf("\n");
     }
     
-    // Cleanup
-    led_cleanup();        // FIXED: was LED_cleanup
+    led_cleanup();      
     Joystick_cleanup();
     
     return 0;

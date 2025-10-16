@@ -16,7 +16,7 @@
 
 static bool isInitialized = false;
 
-// Helper function to write to a file
+// Helper function to write to the led files
 static void writeToFile(const char* path, const char* value) {
     FILE* file = fopen(path, "w");
     if (file == NULL) {
@@ -27,6 +27,7 @@ static void writeToFile(const char* path, const char* value) {
     fclose(file);
 }
 
+ // Initialize LEDs
 void led_init(void) {
     // Set LED triggers to "none" so we can control them manually
     writeToFile(GREEN_LED_TRIGGER, "none");
@@ -39,6 +40,7 @@ void led_init(void) {
     led_setRed(false);
 }
 
+ // Cleanup LEDs
 void led_cleanup(void) {
     assert(isInitialized);
     
@@ -49,6 +51,7 @@ void led_cleanup(void) {
     isInitialized = false;
 }
 
+ // Writes to brightness file to turn on/off LED
 void led_setGreen(bool on) {
     assert(isInitialized);
     
@@ -56,6 +59,7 @@ void led_setGreen(bool on) {
     writeToFile(GREEN_LED_BRIGHTNESS, value);
 }
 
+ // Writes to brightness file to turn on/off LED
 void led_setRed(bool on) {
     assert(isInitialized);
     
@@ -63,7 +67,7 @@ void led_setRed(bool on) {
     writeToFile(RED_LED_BRIGHTNESS, value);
 }
 
-// Helper function to sleep for milliseconds
+// Sleep function
 static void sleepMs(int ms) {
     struct timespec ts;
     ts.tv_sec = ms / 1000;
@@ -71,6 +75,7 @@ static void sleepMs(int ms) {
     nanosleep(&ts, NULL);
 }
 
+ // Flash LED x times over totalTimeMs
 void led_flashGreen(int numFlashes, int totalTimeMs) {
     assert(isInitialized);
     
@@ -87,6 +92,7 @@ void led_flashGreen(int numFlashes, int totalTimeMs) {
     }
 }
 
+  // Flash LED x times over totalTimeMs
 void led_flashRed(int numFlashes, int totalTimeMs) {
     assert(isInitialized);
     
