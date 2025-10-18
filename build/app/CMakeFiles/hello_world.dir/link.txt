@@ -1,1 +1,0 @@
-/usr/bin/aarch64-linux-gnu-gcc -g -fsanitize=address -pthread CMakeFiles/hello_world.dir/src/badmath.c.o CMakeFiles/hello_world.dir/src/main.c.o CMakeFiles/hello_world.dir/src/reaction_timer.c.o -o hello_world  ../hal/libhal.a 

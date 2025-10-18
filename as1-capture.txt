@@ -1,0 +1,168 @@
+aaron@351debian:~$ ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:d5:cb:06 brd ff:ff:ff:ff:ff:ff
+    altname enp2s1
+    inet 192.168.61.130/24 brd 192.168.61.255 scope global dynamic noprefixroute ens33
+       valid_lft 1062sec preferred_lft 1062sec
+    inet6 fe80::20c:29ff:fed5:cb06/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+8: enx1cba8ca2ed6a: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 1c:ba:8c:a2:ed:6a brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.1/24 brd 192.168.7.255 scope global dynamic noprefixroute enx1cba8ca2ed6a
+       valid_lft 1094sec preferred_lft 1094sec
+    inet6 fe80::4ba7:da1a:2e93:5d52/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+aaron@351debian:~$ ping 192.168.7.2
+PING 192.168.7.2 (192.168.7.2) 56(84) bytes of data.
+64 bytes from 192.168.7.2: icmp_seq=1 ttl=64 time=6.86 ms
+64 bytes from 192.168.7.2: icmp_seq=2 ttl=64 time=6.21 ms
+64 bytes from 192.168.7.2: icmp_seq=3 ttl=64 time=4.84 ms
+^C
+--- 192.168.7.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2004ms
+rtt min/avg/max/mdev = 4.838/5.968/6.861/0.842 ms
+aaron@351debian:~$ ssh 192.168.7.2
+Debian GNU/Linux 13
+
+BeagleBoard.org Debian Trixie Base Image 2025-08-29
+Support: https://bbb.io/debian
+default username is [aaron]
+
+aaron@192.168.7.2's password: 
+
+╔══════════════════════════════╗
+║    REACTION TIMER 3000!     ║
+║        By Aaron Yee         ║
+╚══════════════════════════════╝
+
+                  **************                  
+             ************************             
+          ******************************          
+        *********************--------*****        
+      *********************-------------****      
+    ***********************---*******-----****    
+   *************************************---****   
+  ********----------****************************  
+ ********-----**-------************************** 
+ ******************************----************** 
+**************------**********-------*************
+*************-------**********-------*************
+**************------**********------**************
+*******************************----***************
+**************************************************
+ ************************************************ 
+ ************************************************ 
+  ************----------------------************  
+   ********************************************   
+    ******************************************    
+      **************************************      
+        **********************************        
+          ******************************          
+             ************************             
+                  **************                  
+Last login: Sat Oct 18 03:01:40 2025 from 192.168.7.1
+Starting Reaction Timer Game...
+Hello embedded world, from me, Aaron!
+When the LEDs light up, press the joystick in that direction!
+(Press left or right to exit)
+
+Get ready...
+Press DOWN now!
+Correct!
+New best time!
+Your reaction time was 603ms; best so far in game is 603ms.
+
+Get ready...
+Press UP now!
+Incorrect.
+
+Get ready...
+Press UP now!
+Incorrect.
+
+Get ready...
+Press DOWN now!
+Incorrect.
+
+Get ready...
+Press DOWN now!
+Correct!
+New best time!
+Your reaction time was 515ms; best so far in game is 515ms.
+
+Get ready...
+Press DOWN now!
+Correct!
+New best time!
+Your reaction time was 403ms; best so far in game is 403ms.
+
+Get ready...
+Press DOWN now!
+User selected to quit.
+
+aaron@aya102-board:~$ ./internetToTarget.sh
+aaron@aya102-board:~$ ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: dummy0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether ce:87:63:45:e2:21 brd ff:ff:ff:ff:ff:ff
+3: eth0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN group default qlen 1000
+    link/ether 04:25:e8:b1:02:49 brd ff:ff:ff:ff:ff:ff
+    altname enx0425e8b10249
+4: wlan0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN group default qlen 1000
+    link/ether 68:23:b0:1e:d6:48 brd ff:ff:ff:ff:ff:ff
+5: SoftAp0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN group default qlen 1000
+    link/ether 6a:23:b0:1e:d6:49 brd ff:ff:ff:ff:ff:ff
+6: usb0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 1c:ba:8c:a2:ed:6b brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.2/24 brd 192.168.7.255 scope global usb0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::1eba:8cff:fea2:ed6b/64 scope link proto kernel_ll 
+       valid_lft forever preferred_lft forever
+aaron@aya102-board:~$ ping 192.168.7.1
+PING 192.168.7.1 (192.168.7.1) 56(84) bytes of data.
+64 bytes from 192.168.7.1: icmp_seq=1 ttl=64 time=6.89 ms
+64 bytes from 192.168.7.1: icmp_seq=2 ttl=64 time=4.58 ms
+64 bytes from 192.168.7.1: icmp_seq=3 ttl=64 time=6.09 ms
+^C
+--- 192.168.7.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 4.575/5.851/6.888/0.959 ms
+aaron@aya102-board:~$ ping google.ca
+PING google.ca (142.250.69.163) 56(84) bytes of data.
+64 bytes from pnseaa-ap-in-f3.1e100.net (142.250.69.163): icmp_seq=1 ttl=127 time=18.4 ms
+64 bytes from pnseaa-ap-in-f3.1e100.net (142.250.69.163): icmp_seq=2 ttl=127 time=35.6 ms
+64 bytes from pnseaa-ap-in-f3.1e100.net (142.250.69.163): icmp_seq=3 ttl=127 time=17.2 ms
+^C
+--- google.ca ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+rtt min/avg/max/mdev = 17.163/23.715/35.597/8.416 ms
+aaron@aya102-board:~$ cat /boot/firmware/ID.txt
+BeagleBoard.org Debian Trixie Base Image 2025-08-29
+aaron@aya102-board:~$ cat /proc/version
+Linux version 6.1.83-ti-arm64-r72 (voodoo@rpi5b8g-66) (gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44) #1trixie SMP PREEMPT_DYNAMIC Wed Aug  6 18:28:52 UTC 2025
+aaron@aya102-board:~$ cat /proc/uptime
+344.85 1335.84
+aaron@aya102-board:~$ ./mountNFS
+-bash: ./mountNFS: No such file or directory
+aaron@aya102-board:~$ ./mountNFS.sh
+aaron@aya102-board:~$ cd /mnt/remote
+aaron@aya102-board:/mnt/remote$ ls
+helloworld_target  ledTrigger  mountNFS.sh  myApps  nfs_message.txt  spi
+aaron@aya102-board:/mnt/remote$ cd myApps
+aaron@aya102-board:/mnt/remote/myApps$ ls
+reaction_timer
+aaron@aya102-board:/mnt/remote/myApps$ exit
+logout
+Connection to 192.168.7.2 closed.
+aaron@351debian:~$ 
